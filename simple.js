@@ -103,7 +103,6 @@ minusButton2.addEventListener('click', function(){
   const price2Number = parseFloat(price2);
   let newSubTotal = price1Number + price2Number;
   document.getElementById('subtotal').innerText = newSubTotal;
-
   document.getElementById('total').innerText = newSubTotal;
 })
 

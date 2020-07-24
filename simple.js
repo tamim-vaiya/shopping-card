@@ -106,6 +106,25 @@ minusButton2.addEventListener('click', function(){
   document.getElementById('total').innerText = newSubTotal;
 })
 
+const removeItemBtn1 = document.getElementById('removeItem1');
+removeItemBtn1.addEventListener('click', function(){
+  const cartItem1 = document.getElementById('cart-item1');
+  cartItem1.style.display = 'none';
+})
+
+const removeItemBtn2 = document.getElementById('removeItem2');
+removeItemBtn2.addEventListener('click', function(){
+  const cartItem2 = document.getElementById('cart-item2');
+  cartItem2.style.display = 'none';
+})
+
+const checkOutBtn = document.getElementById('checkOutBtn');
+checkOutBtn.addEventListener('click', function(){
+  const frontPage = document.getElementById('frontPage');
+  frontPage.style.display = 'none';
+  const orderDone = document.getElementById('checked');
+  orderDone.style.display = 'block';
+})
 
 
 

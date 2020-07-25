@@ -1,134 +1,47 @@
-// plusButton and event handler
-const plusButton1 = document.getElementById('plusButton1');
-plusButton1.addEventListener('click', function(){
-  const updateValue = document.getElementById('updateValue1').value;
-  const updateValueNum = parseFloat(updateValue);
-  let newValue = updateValueNum + 1;
-  document.getElementById('updateValue1').value = newValue;
-
-  const currentPrice1 = document.getElementById('currentPrice1').innerText;
-  const currentPrizeNumber = parseFloat(currentPrice1);
-  const currentValue = document.getElementById('updateValue1').value;
-  let newPrice = currentValue * 1219;
-  document.getElementById('currentPrice1').innerText = newPrice;
-
-  const subTotal = document.getElementById('subtotal').innerText;
-  const subTotalNumber = parseFloat(subTotal);
-  const price1 = document.getElementById('currentPrice1').innerText;
-  const price1Number = parseFloat(price1);
-  const price2 = document.getElementById('currentPrice2').innerText;
-  const price2Number = parseFloat(price2);
-  let newSubTotal = price1Number + price2Number;
-  document.getElementById('subtotal').innerText = newSubTotal;
-
-  document.getElementById('total').innerText = newSubTotal;
-
-
-})
-const plusButton2 = document.getElementById('plusButton2');
-plusButton2.addEventListener('click', function(){
-  const updateValue = document.getElementById('updateValue2').value;
-  const updateValueNum = parseFloat(updateValue);
-  let newValue = updateValueNum + 1;
-  document.getElementById('updateValue2').value = newValue;
-
-  const currentPrice2 = document.getElementById('currentPrice2').innerText;
-  const currentPrizeNumber = parseFloat(currentPrice1);
-  const currentValue = document.getElementById('updateValue2').value;
-  let newPrice = currentValue * 59;
-  document.getElementById('currentPrice2').innerText = newPrice;
-
-  const subTotal = document.getElementById('subtotal').innerText;
-  const subTotalNumber = parseFloat(subTotal);
-  const price1 = document.getElementById('currentPrice1').innerText;
-  const price1Number = parseFloat(price1);
-  const price2 = document.getElementById('currentPrice2').innerText;
-  const price2Number = parseFloat(price2);
-  let newSubTotal = price1Number + price2Number;
-  document.getElementById('subtotal').innerText = newSubTotal;
-
-  document.getElementById('total').innerText = newSubTotal;
-})
-// minus button and event handler
-const minusButton1 = document.getElementById('minusButton1');
-minusButton1.addEventListener('click', function(){
-  const updateValue = document.getElementById('updateValue1').value;
-  const updateValueNum = parseFloat(updateValue);
-  if (updateValueNum == 0){
-    let newValue = 00;
-    document.getElementById('updateValue1').value = newValue;
-  } else {
-    let newValue = updateValueNum - 1;
-    document.getElementById('updateValue1').value = newValue;
+function handleProductChange(product, isIncrease){
+  const productInput = document.getElementById(product +'-count');
+  const productCount = parseInt(productInput.value);
+  let productNewCount = productCount;
+  if (isIncrease == true){
+    productNewCount = productCount + 1;
   }
-  const currentPrice1 = document.getElementById('currentPrice1').innerText;
-  const currentPrizeNumber = parseFloat(currentPrice1);
-  const currentValue = document.getElementById('updateValue1').value;
-  let newPrice = currentValue * 1219;
-  document.getElementById('currentPrice1').innerText = newPrice;
-
-  const subTotal = document.getElementById('subtotal').innerText;
-  const subTotalNumber = parseFloat(subTotal);
-  const price1 = document.getElementById('currentPrice1').innerText;
-  const price1Number = parseFloat(price1);
-  const price2 = document.getElementById('currentPrice2').innerText;
-  const price2Number = parseFloat(price2);
-  let newSubTotal = price1Number + price2Number;
-  document.getElementById('subtotal').innerText = newSubTotal;
-
-  document.getElementById('total').innerText = newSubTotal;
-})
-const minusButton2 = document.getElementById('minusButton2');
-minusButton2.addEventListener('click', function(){
-  const updateValue = document.getElementById('updateValue2').value;
-  const updateValueNum = parseFloat(updateValue);
-  if (updateValueNum == 0){
-    let newValue = 00;
-    document.getElementById('updateValue2').value = newValue;
-  } else {
-    let newValue = updateValueNum - 1;
-    document.getElementById('updateValue2').value = newValue;
+  if (isIncrease == false && productCount > 0){
+    productNewCount = productCount - 1;
   }
-  const currentPrice2 = document.getElementById('currentPrice2').innerText;
-  const currentPrizeNumber = parseFloat(currentPrice1);
-  const currentValue = document.getElementById('updateValue2').value;
-  let newPrice = currentValue * 59;
-  document.getElementById('currentPrice2').innerText = newPrice;
+  productInput.value = productNewCount;
+  let productTotal = 0;
+  if (product == 'phone'){
+    productTotal = productNewCount * 1219;
+  }
+  if (product == 'case'){
+    productTotal = productNewCount * 59;
+  }
+  document.getElementById(product +'-total').innerText = '$ ' +productTotal;
+  calculateTotal();
+}
+function calculateTotal(){
+  const phoneCount = getInputValue('phone');
+  const caseCount = getInputValue('case');
+  const totalPrice = phoneCount * 1219 + caseCount * 59;
 
-  const subTotal = document.getElementById('subtotal').innerText;
-  const subTotalNumber = parseFloat(subTotal);
-  const price1 = document.getElementById('currentPrice1').innerText;
-  const price1Number = parseFloat(price1);
-  const price2 = document.getElementById('currentPrice2').innerText;
-  const price2Number = parseFloat(price2);
-  let newSubTotal = price1Number + price2Number;
-  document.getElementById('subtotal').innerText = newSubTotal;
-  document.getElementById('total').innerText = newSubTotal;
-})
+  document.getElementById('total-price').innerText = '$' + totalPrice;
 
-const removeItemBtn1 = document.getElementById('removeItem1');
-removeItemBtn1.addEventListener('click', function(){
-  const cartItem1 = document.getElementById('cart-item1');
-  cartItem1.style.display = 'none';
-})
+  const tax = Math.round(totalPrice * 0.01);
+  document.getElementById('tax-amount').innerText = '$ ' + tax;
+  
+  const grandTotal = totalPrice + tax;
+  document.getElementById('grand-total').innerText = '$ ' + grandTotal;  
 
-const removeItemBtn2 = document.getElementById('removeItem2');
-removeItemBtn2.addEventListener('click', function(){
-  const cartItem2 = document.getElementById('cart-item2');
-  cartItem2.style.display = 'none';
-})
+}
+function getInputValue(product){
+  const productInput = document.getElementById(product +'-count').value;
+  const productCount = parseInt(productInput);
+  return productCount;
+}
 
-const checkOutBtn = document.getElementById('checkOutBtn');
-checkOutBtn.addEventListener('click', function(){
+document.getElementById('checkOutBtn').addEventListener('click', function(){
   const frontPage = document.getElementById('frontPage');
   frontPage.style.display = 'none';
   const orderDone = document.getElementById('checked');
   orderDone.style.display = 'block';
 })
-
-
-
-
-
-
-
